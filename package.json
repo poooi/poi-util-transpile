@@ -15,7 +15,7 @@
     "plugin",
     "babel"
   ],
-  "author": "kagami",
+  "author": "かがみ",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/poooi/poi-util-transpile/issues"
@@ -37,5 +37,11 @@
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.3.0"
+  },
+  "engines": {
+    "npm": "^5.0.0"
+  },
+  "bin":{
+    "poi-util-transpile": "./index.js"
   }
 }
