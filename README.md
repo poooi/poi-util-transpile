@@ -4,7 +4,7 @@ Util for transpiling poi plugins
 
 ## compatibility
 
-This util is designed for `poi 7.6.0-beta.1` and later versions. Other versions are not guaranteed.
+This util is designed for `poi 7.6.0` and later versions. Other versions are not guaranteed. An `apiVer` for `7.6.0-beta.1` is probably necessary if you use features like `async/await` that was transpiled with different presets in previous babel config.
 
 ## Howto
 
