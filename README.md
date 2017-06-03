@@ -1,5 +1,8 @@
 # Poi-util-transpile
 
+
+[![npm package][npm-badge]][npm]
+
 Util for transpiling poi plugins
 
 ## Compatibility
@@ -34,3 +37,7 @@ Options:
   --replace           removes .es files                                [boolean]
   -h, --help          Show help                                        [boolean]
 ```
+
+
+[npm-badge]: https://img.shields.io/npm/v/poi-util-transpile.svg?style=flat-square
+[npm]: https://www.npmjs.org/package/poi-util-transpile
