@@ -8,9 +8,9 @@ const babel = Promise.promisifyAll(require('babel-core'))
 const { presets, plugins } = require('./babel.config')
 
 const argv = yargs.usage('Usage: $0 [source] [options]')
-  .boolean('sm')
+  .string('sm')
   .alias('sm', 'source-map')
-  .describe('sm', 'save sourcemap to .js.map file')
+  .describe('sm', 'saves sourcemap to .js.map file and/or inline. same as babel sourceMaps option, if provided with no value, it will default to true')
   .boolean('replace')
   .describe('replace', 'removes .es files')
   .help('h')
@@ -47,14 +47,14 @@ const compileToJsAsync = (appDir, replace, sm) => {
               result = await babel.transformFileAsync(srcPath, {
                 presets: presets.map(p => require.resolve(`babel-preset-${p}`)),
                 plugins: plugins.map(p => require.resolve(`babel-plugin-${p}`)),
-                sourceMap: true,
+                sourceMap: sm || true,
               })
             } catch (e) {
               return
             }
             const { code, map } = result
             await fs.writeFile(codePath, code)
-            if (sm) {
+            if (typeof sm !== 'undefined') {
               await fs.outputJson(mapPath, map)
             }
             if (replace) {
@@ -73,7 +73,7 @@ const compileToJsAsync = (appDir, replace, sm) => {
 const main = async () => {
   const source = path.resolve(process.cwd(), argv._[0] || process.cwd())
   console.info('compiling', source)
-  if (argv.sm) {
+  if (typeof argv.sm !== 'undefined') {
     console.info('Sourcemap generation enabled.')
   }
   if (argv.replace) {
