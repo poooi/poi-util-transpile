@@ -18,17 +18,19 @@ You're expected to use `npm^5` and `node^7.6`.
 ```shell
 npm install --save-dev poi-util-transpile
 ```
-- add prepublish and postpublish (optional) scripts in `package.json` section:
+- add `prepack` and `postpublish` (optional) scripts in `package.json` section:
+
+note: since `prepublish` script is also run during `npm install`, we use newly introduced `prepack` instead.
 
 ```json
-    "prepublish": "poi-plugin-transpile",
+    "prepack": "poi-plugin-transpile",
     "postpublish": "git clean -f && git checkout .",
 ```
 
 ## Usage
 
 ```
-Usage: index.js [source] [options]
+Usage: poi-plugin-transpile [source] [options]
 
 Options:
   --sm, --source-map  saves sourcemap to .js.map file and/or inline. same as
