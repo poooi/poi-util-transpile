@@ -1,0 +1,41 @@
+{
+  "name": "poi-util-transpile",
+  "version": "1.0.0",
+  "description": "Util for transpiling poi plugins",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poooi/poi-util-transpile.git"
+  },
+  "keywords": [
+    "poi",
+    "plugin",
+    "babel"
+  ],
+  "author": "kagami",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/poooi/poi-util-transpile/issues"
+  },
+  "homepage": "https://github.com/poooi/poi-util-transpile#readme",
+  "dependencies": {
+    "babel-core": "^6.24.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2017-node7": "^0.5.2",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "bluebird": "^3.5.0",
+    "fs-extra": "^3.0.1",
+    "walk": "^2.3.9",
+    "yargs": "^8.0.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.3.0"
+  }
+}
