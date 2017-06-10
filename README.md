@@ -23,7 +23,7 @@ npm install --save-dev poi-util-transpile
 note: since `prepublish` script is also run during `npm install`, we use newly introduced `prepack` instead.
 
 ```json
-    "prepack": "poi-plugin-transpile",
+    "prepack": "poi-util-transpile",
     "postpublish": "git clean -f && git checkout .",
 ```
 
