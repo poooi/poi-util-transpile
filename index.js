@@ -50,6 +50,7 @@ const compileToJsAsync = (appDir, replace, sm) => {
                 sourceMap: sm || true,
               })
             } catch (e) {
+              console.error(e.stack)
               return
             }
             const { code, map } = result
