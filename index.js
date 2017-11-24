@@ -7,6 +7,7 @@ const yargs = require('yargs')
 const babel = Promise.promisifyAll(require('babel-core'))
 const { presets, plugins } = require('./babel.config')
 
+/* eslint-disable prefer-destructuring */
 const argv = yargs.usage('Usage: $0 [source] [options]')
   .string('sm')
   .alias('sm', 'source-map')
@@ -16,6 +17,7 @@ const argv = yargs.usage('Usage: $0 [source] [options]')
   .help('h')
   .alias('h', 'help')
   .argv
+/* eslint-enable prefer-destructuring */
 
 const changeExt = (srcPath, ext) => {
   const srcDir = path.dirname(srcPath)
