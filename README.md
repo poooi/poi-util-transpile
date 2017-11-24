@@ -40,6 +40,9 @@ Options:
   -h, --help          Show help                                        [boolean]
 ```
 
+## Changelog
+### 8.0.0
+add `babel-plugin-closure-elimination`, this does not break the compatibility with 7.6.x ~ 7.10.x
 
 [npm-badge]: https://img.shields.io/npm/v/poi-util-transpile.svg?style=flat-square
 [npm]: https://www.npmjs.org/package/poi-util-transpile
