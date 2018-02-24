@@ -4,7 +4,7 @@ const Promise = require('bluebird')
 const path = require('path')
 const fs = require('fs-extra')
 const yargs = require('yargs')
-const babel = Promise.promisifyAll(require('babel-core'))
+const babel = Promise.promisifyAll(require('@babel/core'))
 const { presets, plugins } = require('./babel.config')
 
 /* eslint-disable prefer-destructuring */
@@ -47,8 +47,8 @@ const compileToJsAsync = (appDir, replace, sm) => {
             let result
             try {
               result = await babel.transformFileAsync(srcPath, {
-                presets: presets.map(p => require.resolve(`babel-preset-${p}`)),
-                plugins: plugins.map(p => require.resolve(`babel-plugin-${p}`)),
+                presets,
+                plugins,
                 sourceMap: sm || true,
               })
             } catch (e) {
