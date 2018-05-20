@@ -1,6 +1,6 @@
 {
   "name": "poi-util-transpile",
-  "version": "8.2.0-beta.1",
+  "version": "8.2.0",
   "description": "Util for transpiling poi plugins",
   "main": "index.js",
   "scripts": {
