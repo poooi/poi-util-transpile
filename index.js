@@ -6,6 +6,7 @@ const fs = require('fs-extra')
 const yargs = require('yargs')
 const babel = Promise.promisifyAll(require('@babel/core'))
 const { presets, plugins } = require('./babel.config')
+const chalk = require('chalk')
 
 /* eslint-disable prefer-destructuring */
 const argv = yargs.usage('Usage: $0 [source] [options]')
@@ -41,7 +42,6 @@ const compileToJsAsync = (appDir, replace, sm) => {
         if (targetExts.includes(extname)) {
           tasks.push(async () => {
             const srcPath = path.join(root, fileStats.name)
-            console.log(srcPath)
             const codePath = changeExt(srcPath, '.js')
             const mapPath = changeExt(srcPath, '.js.map')
             let result
@@ -52,8 +52,11 @@ const compileToJsAsync = (appDir, replace, sm) => {
                 babelrc: false,
                 sourceMap: sm || true,
               })
+              console.log(chalk.green(srcPath))
             } catch (e) {
+              console.log(chalk.red(`Error in processing ${srcPath}`))
               console.error(e.stack)
+              process.exitCode = 1
               return
             }
             const { code, map } = result
