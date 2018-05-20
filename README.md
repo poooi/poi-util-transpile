@@ -41,10 +41,10 @@ Options:
 ```
 
 ## Changelog
-### 8.2.0
+### 8.2.1 (^8.2.0 compatible)
 use `babel@7-beta.40` following main poi's settings, code might not be compatible since the target is set to `Electron 1.8`.
 
-### 8.0.0
+### 8.0.0 (^8.0.0 compatible)
 add `babel-plugin-closure-elimination`, this does not break the compatibility with 7.6.x ~ 7.10.x
 
 [npm-badge]: https://img.shields.io/npm/v/poi-util-transpile.svg?style=flat-square
