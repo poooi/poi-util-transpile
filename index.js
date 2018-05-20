@@ -49,6 +49,7 @@ const compileToJsAsync = (appDir, replace, sm) => {
               result = await babel.transformFileAsync(srcPath, {
                 presets,
                 plugins,
+                babelrc: false,
                 sourceMap: sm || true,
               })
             } catch (e) {
