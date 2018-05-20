@@ -41,6 +41,9 @@ Options:
 ```
 
 ## Changelog
+### 8.2.0
+use `babel@7-beta.40` following main poi's settings, code might not be compatible since the target is set to `Electron 1.8`.
+
 ### 8.0.0
 add `babel-plugin-closure-elimination`, this does not break the compatibility with 7.6.x ~ 7.10.x
 
