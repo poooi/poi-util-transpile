@@ -4,7 +4,10 @@
   "description": "Util for transpiling poi plugins",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "prepack": "babel-node ./index.es --sm --replace",
+    "reset": "git clean -f && git checkout .",
+    "postpublish": "npm run reset"
   },
   "repository": {
     "type": "git",
