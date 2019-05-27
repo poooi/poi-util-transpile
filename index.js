@@ -6,11 +6,6 @@ const fs = require('fs-extra')
 const yargs = require('yargs')
 const babel = Promise.promisifyAll(require('@babel/core'))
 const chalk = require('chalk')
-const cosmiconfig = require('cosmiconfig')
-const _ = require('lodash')
-const micromatch = require('micromatch')
-
-const explorer = cosmiconfig('poi-transpile')
 
 const { presets, plugins } = require('./babel.config')
 
@@ -32,34 +27,20 @@ const changeExt = (srcPath, ext) => {
   return path.join(srcDir, srcBasename + ext)
 }
 
-const compileToJsAsync = async (appDir, replace, sm) => {
-  let cosmicResult
-
-  try {
-    cosmicResult = await explorer.search()
-  } catch (e) {
-    console.error('Cannot read the config file.')
-  }
+const compileToJsAsync = (appDir, replace, sm) => {
+  const targetExts = ['.es', '.ts', '.tsx']
 
   const options = {
     followLinks: false,
-    filters: ['node_modules'],
+    filters: ['node_modules', 'assets'],
   }
-
-  const defaultInclude = ['es', 'ts', 'tsx'].map(ext => `**/*.${ext}`)
-  const defaultExclude = ['**/*.d.ts']
-
-  const include = _.toArray(_.get(cosmicResult, ['config', 'include'], defaultInclude))
-  const exclude = _.toArray(_.get(cosmicResult, ['config', 'exclude'], defaultExclude))
-
-  const matcher = include.concat(exclude.map(glob => `!${glob}`))
 
   return new Promise((resolve) => {
     const tasks = []
     walk.walk(appDir, options)
       .on('file', (root, fileStats, next) => {
-        const match = micromatch.isMatch(fileStats.name, matcher)
-        if (match) {
+        const extname = path.extname(fileStats.name).toLowerCase()
+        if (targetExts.includes(extname)) {
           tasks.push(async () => {
             const srcPath = path.join(root, fileStats.name)
             const codePath = changeExt(srcPath, '.js')
