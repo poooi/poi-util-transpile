@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import walk from 'walk'
-import Promise, { promisify } from 'bluebird'
 import path from 'path'
 import fs from 'fs-extra'
 import yargs from 'yargs'
@@ -8,7 +7,7 @@ import chalk from 'chalk'
 import cosmiconfig from 'cosmiconfig'
 import _ from 'lodash'
 import micromatch from 'micromatch'
-import babel from '@babel/core'
+import { transformFileAsync } from '@babel/core'
 
 const explorer = cosmiconfig('poi-transpile')
 
@@ -73,7 +72,7 @@ const compileToJsAsync = async (appDir, replace, sm) => {
             const mapPath = changeExt(srcPath, '.js.map')
             let result
             try {
-              result = await promisify(babel.transformFile)(srcPath, {
+              result = await transformFileAsync(srcPath, {
                 presets,
                 plugins,
                 babelrc: false,
