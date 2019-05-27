@@ -43,7 +43,7 @@ const compileToJsAsync = async (appDir, replace, sm) => {
 
   const options = {
     followLinks: false,
-    filters: ['node_modules'],
+    filters: ['node_modules', '.git'],
   }
 
   const defaultInclude = ['es', 'ts', 'tsx'].map(ext => `**/*.${ext}`)
