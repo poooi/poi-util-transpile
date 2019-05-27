@@ -1,35 +1,46 @@
 #!/usr/bin/env node
-const walk = require('walk')
-const Promise = require('bluebird')
-const path = require('path')
-const fs = require('fs-extra')
-const yargs = require('yargs')
-const babel = Promise.promisifyAll(require('@babel/core'))
-const chalk = require('chalk')
-const cosmiconfig = require('cosmiconfig')
-const _ = require('lodash')
-const micromatch = require('micromatch')
+import walk from 'walk'
+import Promise, { promisify } from 'bluebird'
+import path from 'path'
+import fs from 'fs-extra'
+import yargs from 'yargs'
+import chalk from 'chalk'
+import cosmiconfig from 'cosmiconfig'
+import _ from 'lodash'
+import micromatch from 'micromatch'
+import babel from '@babel/core'
 
 const explorer = cosmiconfig('poi-transpile')
 
 const { presets, plugins } = require('./babel.config')
 
 /* eslint-disable prefer-destructuring */
-const argv = yargs.usage('Usage: $0 [source] [options]')
+const argv = yargs
+  .usage('Usage: $0 [source] [options]')
   .string('sm')
   .alias('sm', 'source-map')
-  .describe('sm', 'saves sourcemap to .js.map file and/or inline. same as babel sourceMaps option, if provided with no value, it will default to true')
+  .describe(
+    'sm',
+    'saves sourcemap to .js.map file and/or inline. same as babel sourceMaps option, if provided with no value, it will default to true',
+  )
   .boolean('replace')
   .describe('replace', 'removes .es files')
   .help('h')
-  .alias('h', 'help')
-  .argv
+  .alias('h', 'help').argv
 /* eslint-enable prefer-destructuring */
 
-const changeExt = (srcPath, ext) => {
+export const changeExt = (srcPath, ext) => {
   const srcDir = path.dirname(srcPath)
   const srcBasename = path.basename(srcPath, path.extname(srcPath))
   return path.join(srcDir, srcBasename + ext)
+}
+
+export const defaultInclude = ['es', 'ts', 'tsx'].map(ext => `**/*.${ext}`)
+export const defaultExclude = ['**/*.d.ts']
+
+export const getMatcher = (include, exclude) => include.concat(exclude.map(glob => `!${glob}`))
+export const testMatch = (target, include, exclude) => {
+  return micromatch.isMatch(target, include) && !micromatch.isMatch(target, exclude)
 }
 
 const compileToJsAsync = async (appDir, replace, sm) => {
@@ -43,22 +54,18 @@ const compileToJsAsync = async (appDir, replace, sm) => {
 
   const options = {
     followLinks: false,
-    filters: ['node_modules'],
+    filters: ['node_modules', '.git'],
   }
-
-  const defaultInclude = ['es', 'ts', 'tsx'].map(ext => `**/*.${ext}`)
-  const defaultExclude = ['**/*.d.ts']
 
   const include = _.toArray(_.get(cosmicResult, ['config', 'include'], defaultInclude))
   const exclude = _.toArray(_.get(cosmicResult, ['config', 'exclude'], defaultExclude))
 
-  const matcher = include.concat(exclude.map(glob => `!${glob}`))
-
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const tasks = []
-    walk.walk(appDir, options)
+    walk
+      .walk(appDir, options)
       .on('file', (root, fileStats, next) => {
-        const match = micromatch.isMatch(fileStats.name, matcher)
+        const match = testMatch(fileStats.name, include, exclude)
         if (match) {
           tasks.push(async () => {
             const srcPath = path.join(root, fileStats.name)
@@ -66,7 +73,7 @@ const compileToJsAsync = async (appDir, replace, sm) => {
             const mapPath = changeExt(srcPath, '.js.map')
             let result
             try {
-              result = await babel.transformFileAsync(srcPath, {
+              result = await promisify(babel.transformFile)(srcPath, {
                 presets,
                 plugins,
                 babelrc: false,
@@ -109,4 +116,6 @@ const main = async () => {
   await compileToJsAsync(source, argv.replace, argv.sm)
 }
 
-main()
+if (require.main === module) {
+  main()
+}
