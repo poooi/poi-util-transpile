@@ -5,8 +5,9 @@ const path = require('path')
 const fs = require('fs-extra')
 const yargs = require('yargs')
 const babel = Promise.promisifyAll(require('@babel/core'))
-const { presets, plugins } = require('./babel.config')
 const chalk = require('chalk')
+
+const { presets, plugins } = require('./babel.config')
 
 /* eslint-disable prefer-destructuring */
 const argv = yargs.usage('Usage: $0 [source] [options]')
@@ -27,7 +28,7 @@ const changeExt = (srcPath, ext) => {
 }
 
 const compileToJsAsync = (appDir, replace, sm) => {
-  const targetExts = ['.es']
+  const targetExts = ['.es', '.ts', '.tsx']
 
   const options = {
     followLinks: false,

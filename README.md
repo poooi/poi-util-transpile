@@ -41,6 +41,9 @@ Options:
 ```
 
 ## Changelog
+### 10.3.0 (^10.3.0 compatible)
+update settings from poi v10, added TypeScript support
+
 ### 8.2.2 (^8.2.0 compatible)
 use `babel@7-beta.40` following main poi's settings, code might not be compatible since the target is set to `Electron 1.8`.
 
