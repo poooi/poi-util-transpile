@@ -7,5 +7,6 @@ module.exports = {
   'rules': {
     'comma-dangle': ['error', 'always-multiline'],
     'semi': ['error', 'never'],
+    'no-console': 'off',
   }
 }
